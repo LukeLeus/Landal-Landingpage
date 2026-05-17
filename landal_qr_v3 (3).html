@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Landal – Contact</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:        #2BA49E;
+    --teal-dark:   #1E7872;
+    --teal-light:  #EAF6F5;
+    --teal-mid:    #B3DEDD;
+    --cream:       #FAF5E8;
+    --cream-dark:  #F0E9D2;
+    --wa:          #25D366;
+    --wa-light:    #EDFBF3;
+    --mail:        #1A73E8;
+    --mail-light:  #EAF2FF;
+    --text:        #1C1C1E;
+    --muted:       #6B7280;
+    --border:      #E0DDD5;
+    --white:       #FFFFFF;
+    --r:           16px;
+    --r-sm:        12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { height: 100%; }
+  body {
+    min-height: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--cream-dark);
+    display: flex; justify-content: center;
+  }
+
+  #shell {
+    width: 100%; max-width: 430px;
+    min-height: 100vh;
+    background: var(--cream);
+    display: flex; flex-direction: column;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; flex-direction: column; min-height: 100vh; animation: fadeUp .22s ease both; }
+  .screen.active { display: flex; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* ── HEADER BAR ── */
+  .hdr {
+    display: flex; align-items: center; gap: 12px;
+    padding: 52px 20px 16px;
+    background: var(--teal);
+    color: #fff; flex-shrink: 0;
+  }
+  .hdr-back {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,.18); border: none;
+    color: #fff; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .hdr-back:active { background: rgba(255,255,255,.3); }
+  .hdr-brand { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; opacity: .7; margin-bottom: 1px; }
+  .hdr-title { font-size: 17px; font-weight: 600; color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--teal);
+    padding: 52px 24px 36px;
+    color: #fff; flex-shrink: 0;
+  }
+  .hero-logo { margin-bottom: 28px; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    line-height: 1.25; letter-spacing: -.2px;
+    margin-bottom: 0;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 1px;
+    background: rgba(255,255,255,.18);
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 14px; opacity: .9;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── BODY ── */
+  .body { padding: 24px 20px; flex: 1; overflow-y: auto; }
+
+  /* ── CONTACT CARDS ── */
+  .contact-card {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px; border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    cursor: pointer; width: 100%; font-family: inherit;
+    text-align: left; margin-bottom: 14px;
+    background: var(--white);
+    transition: transform .12s, border-color .15s;
+  }
+  .contact-card:active { transform: scale(.975); }
+  .contact-card.wa   { border-color: #25D366; }
+  .contact-card.mail { border-color: var(--mail); }
+  .contact-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0;
+  }
+  .contact-icon.wa   { background: var(--wa-light); }
+  .contact-icon.mail { background: var(--mail-light); }
+  .contact-label { font-size: 17px; font-weight: 600; color: var(--text); }
+  .contact-arr { margin-left: auto; font-size: 22px; color: var(--border); font-weight: 300; }
+  .contact-card.wa   .contact-arr { color: var(--wa); }
+  .contact-card.mail .contact-arr { color: var(--mail); }
+
+  /* ── UITLEG PAGINA ── */
+  #s-uitleg { background: var(--cream); }
+  .uitleg-hero {
+    background: var(--teal);
+    padding: 52px 24px 32px;
+    color: #fff; flex-shrink: 0;
+    text-align: center;
+  }
+  .uitleg-logo { margin-bottom: 20px; display: flex; justify-content: center; }
+  .uitleg-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px; padding: 5px 16px;
+    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .uitleg-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700;
+    line-height: 1.3; margin-bottom: 10px;
+  }
+  .uitleg-sub { font-size: 14px; opacity: .82; line-height: 1.6; }
+
+  /* Content blocks — easy to edit */
+  .uitleg-section {
+    background: var(--white);
+    border-radius: var(--r);
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+  }
+  .uitleg-section-title {
+    font-size: 13px; font-weight: 600;
+    color: var(--teal); letter-spacing: .5px;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .uitleg-section p {
+    font-size: 14px; color: var(--text);
+    line-height: 1.7;
+  }
+  .uitleg-section p + p { margin-top: 8px; }
+
+  /* Onderzoekers */
+  .researcher-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .researcher-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--teal-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+    color: var(--teal); font-weight: 700; font-size: 15px;
+  }
+  .researcher-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .researcher-role { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+  /* RQ blokjes */
+  .rq-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .rq-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .rq-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--teal-light); color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .rq-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+  /* Feedback vragen */
+  .fb-block { margin-bottom: 20px; }
+  .fb-q { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .emoji-row { display: flex; gap: 8px; }
+  .emoji-btn {
+    flex: 1; padding: 11px 4px; background: var(--white);
+    border: 1.5px solid var(--border); border-radius: var(--r-sm);
+    font-size: 20px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-family: inherit; transition: all .15s;
+  }
+  .emoji-btn span { font-size: 10px; color: var(--muted); font-weight: 500; }
+  .emoji-btn.sel { border-color: var(--teal); background: var(--teal-light); }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill-btn {
+    padding: 8px 14px; border: 1.5px solid var(--border);
+    border-radius: 20px; background: var(--white);
+    font-size: 13px; font-weight: 500; color: var(--text);
+    cursor: pointer; font-family: inherit; transition: all .15s;
+  }
+  .pill-btn.sel { border-color: var(--teal); background: var(--teal-light); color: var(--teal); }
+
+  /* ── KNOPPEN ── */
+  .btn { width: 100%; padding: 16px; border: none; border-radius: var(--r); font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform .1s; }
+  .btn:active { transform: scale(.98); }
+  .btn-teal  { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--border); margin-top: 10px; }
+  .btn:disabled { opacity: .5; cursor: default; }
+
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+  .hint { text-align: center; margin-top: 16px; font-size: 12px; color: var(--teal-mid); }
+  .success-bar {
+    background: #d1fae5; border-radius: var(--r-sm);
+    padding: 12px; text-align: center;
+    font-size: 13px; color: #065f46; font-weight: 600;
+    margin-top: 12px; display: none;
+  }
+</style>
+</head>
+<body>
+<div id="shell">
+
+  <!-- ══════════════ LANDING ══════════════ -->
+  <div class="screen active" id="s-welcome">
+    <div class="hero">
+
+      <!-- Landal logo SVG (reel + woordmerk) -->
+      <div class="hero-logo">
+        <svg width="180" height="48" viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Reel ring: 28 dashes around center 24,24 radius 20 -->
+          <g transform="translate(24,24)">
+            <!-- generated dashes every 360/28 ≈ 12.86° -->
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(0)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(12.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(25.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(38.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(51.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(64.29)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(77.14)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(90)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(102.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(115.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(128.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(141.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(154.29)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(167.14)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(180)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(192.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(205.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(218.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(231.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(244.29)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(257.14)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(270)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(282.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(295.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(308.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(321.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(334.29)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(347.14)"/>
+            <!-- Pause bars -->
+            <rect x="-5.5" y="-9" width="4" height="18" rx="2" fill="white"/>
+            <rect x="1.5"  y="-9" width="4" height="18" rx="2" fill="white"/>
+          </g>
+          <!-- Wordmark: "landal" serif -->
+          <text x="58" y="32" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="700" fill="white" letter-spacing="-0.5">landal</text>
+          <!-- Tagline -->
+          <text x="58" y="45" font-family="'Inter', sans-serif" font-size="10" fill="white" opacity="0.75" letter-spacing="0.2">Holiday breaks in nature</text>
+        </svg>
+      </div>
+
+      <div class="hero-title">Welkom,<br>hoe wilt u contact<br>met ons?</div>
+    </div>
+
+    <div class="body">
+      <button class="contact-card wa" onclick="goto('s-uitleg')">
+        <div class="contact-icon wa">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#25D366"/><path d="M22.5 9.5C20.8 7.8 18.5 6.9 16 6.9c-5 0-9.1 4.1-9.1 9.1 0 1.6.4 3.2 1.2 4.6L6.8 25l4.6-1.2c1.3.7 2.8 1.1 4.4 1.1h.1c5 0 9.1-4.1 9.1-9.1 0-2.4-.9-4.7-2.5-6.3zm-6.5 14c-1.4 0-2.8-.4-4-1.1l-.3-.2-3 .8.8-3-.2-.3c-.8-1.2-1.2-2.7-1.2-4.2 0-4.3 3.5-7.8 7.8-7.8 2.1 0 4 .8 5.5 2.3 1.5 1.5 2.3 3.4 2.3 5.5 0 4.3-3.5 7.8-7.7 8zm4.3-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.3-.1-.5.1-.1.2-.6.8-.7.9-.1.1-.3.1-.5 0-.2-.1-.9-.3-1.8-1.1-.7-.6-1.1-1.3-1.2-1.5-.1-.2 0-.4.1-.5l.4-.4c.1-.1.1-.2.2-.4 0-.1 0-.3-.1-.4-.1-.1-.5-1.2-.7-1.6-.2-.4-.4-.3-.5-.3h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.1 1.5 2.4 3.8 3.3.5.2.9.3 1.2.4.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-.9.1-1-.1-.2-.2-.2-.4-.3z" fill="#fff"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">WhatsApp</div>
+        </div>
+        <div class="contact-arr">›</div>
+      </button>
+
+      <button class="contact-card mail" onclick="goto('s-uitleg')">
+        <div class="contact-icon mail">
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#1A73E8"/><path d="M8 11h16M8 11v10a1 1 0 001 1h14a1 1 0 001-1V11M8 11l8 6 8-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">E-mail</div>
+        </div>
+        <div class="contact-arr">›</div>
+      </button>
+
+      <p class="hint">Gescand via QR-code in uw bungalow</p>
+    </div>
+  </div>
+
+
+  <!-- ══════════════ UITLEG AFSTUDEERPROJECT ══════════════ -->
+  <div class="screen" id="s-uitleg">
+
+    <!-- HERO -->
+    <div class="uitleg-hero">
+      <div class="uitleg-logo">
+        <svg width="52" height="52" viewBox="0 0 48 48" fill="none">
+          <g transform="translate(24,24)">
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(0)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(25.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(51.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(77.14)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(102.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(128.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(154.29)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(180)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(205.71)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(231.43)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(257.14)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(282.86)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(308.57)"/>
+            <line x1="0" y1="-14" x2="0" y2="-20" stroke="white" stroke-width="2.5" stroke-linecap="round" transform="rotate(334.29)"/>
+            <rect x="-5.5" y="-9" width="4" height="18" rx="2" fill="white"/>
+            <rect x="1.5"  y="-9" width="4" height="18" rx="2" fill="white"/>
+          </g>
+        </svg>
+      </div>
+      <div class="uitleg-badge">🎓 Afstudeeronderzoek</div>
+      <div class="uitleg-title">Bedankt voor uw deelname!</div>
+      <p class="uitleg-sub">U heeft zojuist deelgenomen aan een afstudeeronderzoek van de Hotel Management School Maastricht.</p>
+    </div>
+
+    <div class="body">
+
+      <!-- BLOK 1: Wat was dit? -->
+      <div class="uitleg-section">
+        <div class="uitleg-section-title">Wat was dit?</div>
+        <p>Dit was geen echte contactpagina, maar een <strong>prototype</strong> als onderdeel van ons afstudeeronderzoek. We testen of gasten bij Landal behoefte hebben aan digitale contactmogelijkheden via QR-code.</p>
+        <p>Er zit geen echte medewerker achter dit systeem.</p>
+      </div>
+
+      <!-- BLOK 2: Over het onderzoek -->
+      <div class="uitleg-section">
+        <div class="uitleg-section-title">Over het onderzoek</div>
+        <p>Binnen het <strong>blurring concept</strong> van Landal onderzoeken wij hoe gasten digitale service ervaren naast persoonlijk contact. Dit prototype helpt ons te meten welke contactkanalen gasten daadwerkelijk zouden gebruiken.</p>
+        <p>Uw gedrag en keuzes op deze pagina zijn anoniem geregistreerd als onderdeel van ons onderzoek.</p>
+      </div>
+
+      <!-- BLOK 3: Onderzoekers -->
+      <div class="uitleg-section">
+        <div class="uitleg-section-title">De onderzoekers</div>
+        <div class="researcher-row">
+          <div class="researcher-avatar">TL</div>
+          <div>
+            <div class="researcher-name">Tijn Leus</div>
+            <div class="researcher-role">Student Hotel Management School Maastricht</div>
+          </div>
+        </div>
+        <div class="researcher-row">
+          <div class="researcher-avatar">II</div>
+          <div>
+            <div class="researcher-name">Isis [achternaam]</div>
+            <div class="researcher-role">Mede-onderzoeker</div>
+          </div>
+        </div>
+        <div class="researcher-row" style="margin-bottom:0">
+          <div class="researcher-avatar" style="font-size:11px">L</div>
+          <div>
+            <div class="researcher-name">Landal</div>
+            <div class="researcher-role">Stagepartner & opdrachtgever</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOK 4: Onderzoeksvragen (optioneel weggooien) -->
+      <div class="uitleg-section">
+        <div class="uitleg-section-title">Wat onderzoeken we?</div>
+        <div class="rq-item">
+          <div class="rq-num">1</div>
+          <div class="rq-text">Hoe ervaren gasten het blurring concept in de dagelijkse praktijk?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-num">2</div>
+          <div class="rq-text">Welke contactkanalen sluiten aan bij de wensen van verschillende doelgroepen?</div>
+        </div>
+        <div class="rq-item">
+          <div class="rq-num">3</div>
+          <div class="rq-text">Wat is de optimale balans tussen digitale zelfservice en persoonlijk contact?</div>
+        </div>
+      </div>
+
+      <!-- BLOK 5: Feedbackvragen (optioneel weggooien/aanpassen) -->
+      <div class="uitleg-section">
+        <div class="uitleg-section-title">Twee snelle vragen</div>
+
+        <div class="fb-block">
+          <p class="fb-q">Hoe voelde u zich toen u de QR-code scande?</p>
+          <div class="emoji-row">
+            <button class="emoji-btn" onclick="selEmoji(this,'v1')">😰<span>Onzeker</span></button>
+            <button class="emoji-btn" onclick="selEmoji(this,'v1')">😐<span>Neutraal</span></button>
+            <button class="emoji-btn" onclick="selEmoji(this,'v1')">😊<span>Nieuwsgierig</span></button>
+            <button class="emoji-btn" onclick="selEmoji(this,'v1')">😄<span>Enthousiast</span></button>
+          </div>
+        </div>
+
+        <div class="fb-block" style="margin-bottom:0">
+          <p class="fb-q">Welk kanaal zou u echt gebruiken?</p>
+          <div class="pill-row">
+            <button class="pill-btn" onclick="togPill(this)">💬 WhatsApp</button>
+            <button class="pill-btn" onclick="togPill(this)">✉️ E-mail</button>
+            <button class="pill-btn" onclick="togPill(this)">📞 Bellen</button>
+            <button class="pill-btn" onclick="togPill(this)">Geen van alle</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-teal" id="submit-btn" onclick="submit()">Antwoorden versturen →</button>
+      <div class="success-bar" id="success-bar">✅ Verstuurd — hartelijk dank voor uw medewerking!</div>
+
+      <div class="divider"></div>
+      <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.7">
+        <strong style="color:var(--text)">Hotel Management School Maastricht</strong><br>
+        in samenwerking met Landal<br>
+        Alle gegevens worden anoniem verwerkt
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function goto(id) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function selEmoji(btn, grp) {
+  btn.closest('.emoji-row').querySelectorAll('.emoji-btn').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+}
+function togPill(btn) { btn.classList.toggle('sel'); }
+function submit() {
+  document.getElementById('success-bar').style.display = 'block';
+  document.getElementById('submit-btn').disabled = true;
+}
+</script>
+</body>
+</html>
